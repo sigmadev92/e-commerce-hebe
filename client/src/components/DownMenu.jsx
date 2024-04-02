@@ -7,10 +7,9 @@ export default function DownMenu() {
       {showMenu && <Menu />}
 
       <div
-        className="text-center font-bold border-2 fixed bottom-2 cursor-pointer w-full md:hidden"
+        className="text-center font-bold border-2 fixed bottom-2 cursor-pointer w-full md:hidden bg-red-300 hover:bg-blue-300"
         onClick={() => {
           setShowMenu((prev) => !prev);
-          console.log(window.innerWidth);
         }}
       >
         {showMenu ? "X" : "MENU"}
