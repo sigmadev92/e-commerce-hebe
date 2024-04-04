@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Login from "../pages/Login";
+
 import { Outlet } from "react-router-dom";
 
-export default function PrivateRoute() {
+export default function PublicRoute() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("Token"));
 
-  return isLoggedIn === "" ? <Login /> : <Outlet />;
+  return isLoggedIn === "" ? <Outlet /> : <div>YOu are already logged in</div>;
 }

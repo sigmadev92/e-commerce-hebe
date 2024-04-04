@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { RegisterUser } from "../routes/basicAuth";
 export default function Register() {
   const [formData, setData] = useState({
     name: "",
@@ -8,10 +9,11 @@ export default function Register() {
     password: "",
   });
 
+  const navigate = useNavigate();
+  const [errorMsg, setErrormsg] = useState("");
   const { email, password, phone, name } = formData;
 
   function handleClick(e) {
-    console.log(e.target.name);
     setData((prev) => {
       return {
         ...prev,
@@ -19,16 +21,31 @@ export default function Register() {
       };
     });
   }
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     console.log(formData);
+
+    try {
+      const response = await RegisterUser(formData);
+      if (response.success) {
+        navigate("/login");
+      } else {
+        setErrormsg(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   return (
     <div className="w-80 bg-blue-300 h-[280px] mx-auto my-[40px]">
       <h1 className="text-center font-bold bg-orange-500 p-4">
         USER REGISTERATION PANEL - HEBE
       </h1>
       <form onSubmit={(e) => handleSubmit(e)} className="px-2 space-y-3 py-3">
+        {errorMsg !== "" && (
+          <span className="text-red-300">Can't Register user</span>
+        )}
         <input
           type="text"
           name="name"

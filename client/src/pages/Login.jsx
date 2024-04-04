@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { LoginUser } from "../routes/basicAuth";
 export default function Login() {
   const [formData, setData] = useState({
     email: "",
@@ -7,9 +8,9 @@ export default function Login() {
   });
 
   const { email, password } = formData;
-
+  const [errorMsg, setErrormsg] = useState("");
+  const navigate = useNavigate();
   function handleClick(e) {
-    console.log(e.target.name);
     setData((prev) => {
       return {
         ...prev,
@@ -17,9 +18,20 @@ export default function Login() {
       };
     });
   }
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     console.log(formData);
+    try {
+      const response = await LoginUser(formData);
+      if (response.success) {
+        localStorage.setItem("Token", response.token);
+        navigate("/profile");
+      } else {
+        setErrormsg(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <div className="w-80 bg-blue-300 h-[200px] mx-auto my-[40px]">
@@ -27,6 +39,7 @@ export default function Login() {
         LOGIN PANEL - HEBE
       </h1>
       <form onSubmit={(e) => handleSubmit(e)} className="px-2 space-y-3 py-3">
+        {errorMsg !== "" && <span className="text-red-300">{errorMsg}</span>}
         <input
           type="text"
           name="email"

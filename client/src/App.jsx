@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPassword from "./pages/ForgotPassword";
+import PublicRoute from "./components/PublicRoute";
 function App() {
   return (
     <BrowserRouter>
@@ -17,8 +18,13 @@ function App() {
       <Rewards />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<PublicRoute />}>
+          <Route path="/register" element={<Register />} />
+        </Route>
+        <Route path="/login" element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
+
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/profile" element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
