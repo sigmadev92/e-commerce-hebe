@@ -1,5 +1,5 @@
 import Contact from "./components/Contact";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Rewards from "./components/Rewards";
 import Home from "./pages/Home";
@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import PublicRoute from "./components/PublicRoute";
+import RegisterProduct from "./pages/RegisterProduct";
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,9 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/profile" element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
+        </Route>
+        <Route path="/register-product" element={<PrivateRoute />}>
+          <Route path="/register-product" element={<RegisterProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -39,6 +39,7 @@ router.post('/login',async(req,res)=>{
         return res.send({
             success : true,
             token : user._id,
+            userData : user,
         })
     }
     return res.send({
@@ -49,4 +50,24 @@ router.post('/login',async(req,res)=>{
 
 });
 
+router.get('/auth',async(req,res)=>{
+    console.log(req.headers);
+    console.log("Auth route fetched");
+    const user = await users.findOne({_id:req.headers.authorization});
+    console.log(user);
+    if(user){
+        
+        return res.send({
+            success : true,
+            userData : user,
+        });
+    }
+    return res.send({
+        success:false,
+    })
+   
+    
+     
+
+});
 export default router;

@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { LoginUser } from "../routes/basicAuth";
+import { useDispatch, useSelector } from "react-redux";
+import user, { SetCurrentUser } from "../redux/slices/user";
 export default function Login() {
+  const { currentUser } = useSelector((state) => state.currentUser);
+  const dispatch = useDispatch();
   const [formData, setData] = useState({
     email: "",
     password: "",
@@ -25,6 +29,7 @@ export default function Login() {
       const response = await LoginUser(formData);
       if (response.success) {
         localStorage.setItem("Token", response.token);
+        dispatch(SetCurrentUser(response.userData));
         navigate("/profile");
       } else {
         setErrormsg(response.message);
@@ -34,7 +39,7 @@ export default function Login() {
     }
   }
   return (
-    <div className="w-80 bg-blue-300 h-[200px] mx-auto my-[40px]">
+    <div className="w-80 bg-blue-300 h-[250px] mx-auto my-[40px]">
       <h1 className="text-center font-bold bg-orange-500 p-4">
         LOGIN PANEL - HEBE
       </h1>
